@@ -1,0 +1,58 @@
+//
+//  ViewController.swift
+//  LocationApp
+//
+//  Created by David on 2025/03/06.
+//
+
+import UIKit
+import MapKit
+import CoreLocation
+
+class ViewController: UIViewController, CLLocationManagerDelegate {
+
+    let locationManager = CLLocationManager()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        locationManager.delegate = self
+        // Do any additional setup after loading the view.
+    }
+
+    func locationManager( manager: CLLocationManager,
+                         didFailWithError error: Error) {
+        print(error)
+    }
+
+    func locationManagerDidChangeAuthorization( manager: CLLocationManager) {
+
+        checkAndStart()
+    }
+
+    func locationManger(_ manager: CLLocation,
+                        didUpdateLocation locations: [CLLocation]) {
+        print(locations)
+    }
+
+    func checkAndStart(){
+        switch locationManager.authorizationStatus{
+
+        case .authorizedAlways:
+            print("Alwyas authrization granted")
+            locationManager.startUpdatingLocation()
+
+        case .authorizedWhenInUse:
+            print("When in use authorization granted")
+            locationManager.startUpdatingLocation()
+
+        case .denied, .restricted:
+            print("Sorry, no authorization granted")
+        default:
+            print("We don't know, let's ask!")
+            locationManager.requestAlwaysAuthorization()
+
+        }
+    }
+
+}
