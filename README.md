@@ -1,0 +1,2 @@
+# labex6
+lab
